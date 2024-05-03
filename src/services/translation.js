@@ -1,5 +1,3 @@
-import { CardSuit, CardValue } from "./dealer";
-
 export function translateSuit(suit) {
   const translations = {
     HEARTS: 'Copas',
