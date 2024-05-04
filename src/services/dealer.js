@@ -68,7 +68,7 @@ export default class Dealer {
   }
 
   //* Calcula o resultado da aposta
-  getBetResult(result, bet) {
+  getBetResult(result, bet) { //? Função já feita, mole, mas onde usar?
     if (result === 'Blackjack!')
       return bet * 2.5;
     if (result === 'Perdeu!' || (this.score[1] || this.score[0]) < 15) 
@@ -78,7 +78,7 @@ export default class Dealer {
   }
 
   //* Retorna o placar do jogo
-  getScore(bet) {
+  getScore(bet) { //? O que será este bet?
     //* Atualiza o placar em numbers
     const score = this.updateScore();
 
@@ -100,7 +100,6 @@ export default class Dealer {
       score: answer,
       result: result,
       game: !result,
-      money: this.getBetResult(result, bet),
     };
   }
 }

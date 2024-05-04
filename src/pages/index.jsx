@@ -17,10 +17,9 @@ function App() {
     score: '0',
     result: null,
     game: false,
-    money: 0,
   });
-  const [balance, setBalance] = useState(1000);
-  const [bet, setBet] = useState(0);
+
+  //? Sentindo falta de algo? Talvez alguma informação nova que precise ser atualizada na tela?
 
   const shuffleDeck = async () => {
     try {
@@ -28,7 +27,6 @@ function App() {
       setCard(null);
       setHistory([]);
       setScore({ score: '0', result: null, game: true, money: 0});
-      setBalance(balance - bet);
     } catch (error) {
       console.error('Falha ao embaralhar:', error);
     }
@@ -41,15 +39,13 @@ function App() {
       setHistory(dealer.getHistory());
       const score = dealer.getScore(bet)
       setScore(score);
-      if(score.result) setBalance(balance + score.money);
     } catch (error) {
       console.error('Falha ao comprar carta:', error);
     }
   };
 
   const stopGame = () => {
-    setScore({ ...score, game: false });
-    setBalance(balance + score.money);
+    //? O que será que tem que ser feito aqui?
   };
 
   return (
@@ -65,16 +61,7 @@ function App() {
               DNC Treinamentos
             </Typography>
 
-            {/* CARTEIRA */}
-            <Typography variant="h6" align="center">
-              Carteira: {balance} DNCoins
-            </Typography>
-
-            {/* APOSTA */}
-            <Typography variant="h6" align="center">
-              Aposta: <Input inputProps={{style: {textAlign: 'center'}}} disabled={score.game} type="number" value={bet} onChange={(event) => setBet(event.target.value)} style={{ margin: 'auto', width: '100px', backgroundColor: 'white', borderRadius: '5px', marginTop: 4, marginBottom: 12, justifyItems: 'center' }} />
-            </Typography>
-            
+            {/* APOSTA E CARTEIRA AQUI BB ;D */}            
             
             {!score.game && (
               <Button variant="contained" onClick={shuffleDeck} style={{ margin: 'auto' }}>
@@ -111,9 +98,7 @@ function App() {
                   <Button variant="contained" onClick={drawCard} style={{ margin: 'auto', width: '180px', backgroundColor: 'green' }}>
                     Comprar carta
                   </Button>
-                  <Button variant="contained" onClick={stopGame} style={{ margin: 'auto', width: '180px', backgroundColor: 'red' }}>
-                    Parar
-                  </Button>
+                  {/* SERÁ QUE VOU COMPRAR PARA SEMPRE? */}
                 </Grid>
               </>)}
             </Container>
