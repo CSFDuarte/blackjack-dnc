@@ -55,7 +55,7 @@ function App() {
   return (
     <Container>
       <Grid container justifyContent="center" alignItems="flex-start" direction={'row'} my={1}>
-        <Grid justifyContent="center" alignItems="flex-start" my={2} sm={12} md={6}>
+        <Grid item justifyContent="center" alignItems="flex-start" my={2} sm={12} md={6}>
           <Grid container direction={"column"}>
             {/* CABEÇALHO */}
             <Typography variant="h4" align="center">
