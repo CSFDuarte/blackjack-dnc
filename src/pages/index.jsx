@@ -37,7 +37,7 @@ function App() {
       setDeck({ ...deck, remaining: deck.remaining - 1, shuffled: deck.remaining > 1})
       setCard(await dealer.draw());
       setHistory(dealer.getHistory());
-      const score = dealer.getScore(bet)
+      const score = dealer.getScore(0); //* Será 0 mesmo?
       setScore(score);
     } catch (error) {
       console.error('Falha ao comprar carta:', error);
@@ -51,7 +51,7 @@ function App() {
   return (
     <Container>
       <Grid container justifyContent="center" alignItems="flex-start" direction={'row'} my={1}>
-        <Grid justifyContent="center" alignItems="flex-start" my={2} sm={12} md={6}>
+        <Grid item justifyContent="center" alignItems="flex-start" my={2} sm={12} md={6}>
           <Grid container direction={"column"}>
             {/* CABEÇALHO */}
             <Typography variant="h4" align="center">
