@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://deckofcardsapi.com/api/',
+  baseURL: 'https://deckofcardsapi.com/api',
 });
 
 export const CARD_BACKGROUND = 'https://deckofcardsapi.com/static/img/back.png';
@@ -16,11 +16,12 @@ export default class Dealer {
   score = [0];
   history = [];
 
+  //* Embaralha o baralho
   async shuffle() {
     const response = 
       this.deck.deck_id === '' ?
-        await api.get('deck/new/shuffle/?deck_count=1') :
-        await api.get(`deck/${this.deck.deck_id}/shuffle`);
+        await api.get('/deck/new/shuffle/?deck_count=1') :
+        await api.get(`/deck/${this.deck.deck_id}/shuffle`);
 
     this.deck.deck_id = response.data.deck_id;
     this.deck.remaining = response.data.remaining;
@@ -30,16 +31,19 @@ export default class Dealer {
     return this.deck;
   }
 
+  //* Compra uma carta
   async draw() {
-    const response = await api.get(`deck/${this.deck.deck_id}/draw/?count=1`);
+    const response = await api.get(`/deck/${this.deck.deck_id}/draw/?count=1`);
     this.history.push(response.data.cards[0]);
     return response.data.cards[0];
   }
 
+  //* Retorna o histórico de cartas
   getHistory() {
     return this.history;
   }
 
+  //* Atualiza o placar do jogo
   updateScore() {
     this.score = [0];
     for (let i = 0; i < this.history.length; i++) {
@@ -63,18 +67,40 @@ export default class Dealer {
     return this.score;
   }
 
-  getScore() {
+  //* Calcula o resultado da aposta
+  getBetResult(result, bet) {
+    if (result === 'Blackjack!')
+      return bet * 2.5;
+    if (result === 'Perdeu!' || (this.score[1] || this.score[0]) < 15) 
+      return 0;
+    if (result === null) 
+      return bet * (1 + (((this.score[1] || this.score[0]) - 10)/100));
+  }
+
+  //* Retorna o placar do jogo
+  getScore(bet) {
     //* Atualiza o placar em numbers
     const score = this.updateScore();
 
-    //* Se o valor passou de 21, ele retorna PERDEU, mas se algum é valor é 21, ele retorna VENCEU
-    if (score.length === 0) return 'PERDEU';
-    if (score.includes(21)) return 'VENCEU';
-
+    //* Transforma o placar em string
     let answer = '';
     score.forEach((value, index) => 
       answer += value + (index < score.length - 1 ? ' ou ' : ''));
 
-    return answer;
+    //* Verifica o resultado do jogo
+    const result =
+      score.length === 0 ?
+        'Perdeu!'
+      : score.length > 0 && score.includes(21) ?
+        'Blackjack!'
+      :
+        null;
+
+    return {
+      score: answer,
+      result: result,
+      game: !result,
+      money: this.getBetResult(result, bet),
+    };
   }
 }
