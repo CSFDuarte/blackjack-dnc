@@ -26,7 +26,7 @@ function App() {
       setDeck(await dealer.shuffle());
       setCard(null);
       setHistory([]);
-      setScore({ score: '0', result: null, game: true, money: 0});
+      setScore({ score: '0', result: null, game: true });
     } catch (error) {
       console.error('Falha ao embaralhar:', error);
     }
