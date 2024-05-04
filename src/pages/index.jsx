@@ -19,14 +19,12 @@ function App() {
     game: false,
   });
 
-  //? Sentindo falta de algo? Talvez alguma informação nova que precise ser atualizada na tela?
-
   const shuffleDeck = async () => {
     try {
       setDeck(await dealer.shuffle());
       setCard(null);
       setHistory([]);
-      setScore({ score: '0', result: null, game: true, money: 0});
+      setScore({ score: '0', result: null, game: true});
     } catch (error) {
       console.error('Falha ao embaralhar:', error);
     }
@@ -37,17 +35,11 @@ function App() {
       setDeck({ ...deck, remaining: deck.remaining - 1, shuffled: deck.remaining > 1})
       setCard(await dealer.draw());
       setHistory(dealer.getHistory());
-      const score = dealer.getScore(0); //* Será 0 mesmo?
-      setScore(score);
+      setScore(dealer.getScore());
     } catch (error) {
       console.error('Falha ao comprar carta:', error);
     }
   };
-
-  const stopGame = () => {
-    //? O que será que tem que ser feito aqui?
-  };
-
   return (
     <Container>
       <Grid container justifyContent="center" alignItems="flex-start" direction={'row'} my={1}>
@@ -60,9 +52,6 @@ function App() {
             <Typography variant="h5" align="center">
               DNC Treinamentos
             </Typography>
-
-            {/* APOSTA E CARTEIRA AQUI BB ;D */}            
-            
             {!score.game && (
               <Button variant="contained" onClick={shuffleDeck} style={{ margin: 'auto' }}>
                 Iniciar jogo
@@ -98,14 +87,12 @@ function App() {
                   <Button variant="contained" onClick={drawCard} style={{ margin: 'auto', width: '180px', backgroundColor: 'green' }}>
                     Comprar carta
                   </Button>
-                  {/* SERÁ QUE VOU COMPRAR PARA SEMPRE? */}
                 </Grid>
               </>)}
             </Container>
           )}
         </Grid>
         <Grid item justifyContent="center" alignItems="center" my={2} sm={12} md={6}>
-          {/* CARTA COMPRADA */}
           {card && (<>
             <Typography variant="h4" align="center">
               Carta comprada
