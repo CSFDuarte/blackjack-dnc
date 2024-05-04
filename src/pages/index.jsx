@@ -65,7 +65,7 @@ function App() {
           )}
         </Grid>
 
-        <Grid item justifyContent="center" alignItems="center" direction={'column'} my={2} sm={12} md={6}>
+        <Grid item justifyContent="center" alignItems="center" my={2} sm={12} md={6}>
           {/* CARTA COMPRADA */}
           {card && (<>
             <Typography variant="h4" align="center">
